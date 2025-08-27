@@ -1,0 +1,6 @@
+"module name","license","repository"
+"@types/node@20.19.11","MIT","https://github.com/DefinitelyTyped/DefinitelyTyped"
+"license-builder@1.0.0","MIT",""
+"ts-node@10.9.2","MIT","https://github.com/TypeStrong/ts-node"
+"tsx@4.20.5","MIT","https://github.com/privatenumber/tsx"
+"typescript@5.9.2","Apache-2.0","https://github.com/microsoft/TypeScript"

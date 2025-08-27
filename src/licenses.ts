@@ -7,6 +7,7 @@ interface PackageJson {
   peerDependencies?: Record<string, string>;
 }
 
+// Npm package info response from npmjs.org registry
 interface NpmPackageInfo {
   name: string;
   version: string;
@@ -29,6 +30,7 @@ interface NpmPackageInfo {
   size?: number;
 }
 
+// Package record after analysis
 interface PackageAnalysis {
   name: string;
   installedVersion: string;
@@ -60,7 +62,7 @@ class PackageAnalyzer {
   private _packages: PackageAnalysis[] = [];
   private readonly _npmRegistryUrl = 'https://registry.npmjs.org';
   private _requestCount = 0;
-  private readonly _maxRequestsPerMinute = 50; // Rate limiting
+  private readonly _maxRequestsPerMinute = 10; // Rate limiting.  Set this to 50 later.  10 for testing only.
 
   async analyzePackageJson(packageJsonPath: string): Promise<AnalysisReport> {
     console.log(`📦 Analyzing package.json at: ${packageJsonPath}`);
@@ -77,6 +79,7 @@ class PackageAnalyzer {
 
     let processed = 0;
 
+    // Walk through all dependencies sequentially 
     for (const dep of allDeps) {
       try {
         console.log(`[${++processed}/${allDeps.length}] Analyzing ${dep.name}...`);
@@ -87,7 +90,8 @@ class PackageAnalyzer {
         // Rate limiting
         if (this._requestCount % this._maxRequestsPerMinute === 0) {
           console.log('⏱️  Rate limiting... waiting 60 seconds');
-          await this._sleep(60000);
+          //await this._sleep(60000);
+          return this._generateReport();  // For testing, return partial report
         }
 
         // Small delay between requests
@@ -161,6 +165,7 @@ class PackageAnalyzer {
     return deps;
   }
 
+  // Call npm registry to get package info for a specific package
   private async _analyzePackage(
     name: string,
     installedVersion: string,
@@ -193,6 +198,7 @@ class PackageAnalyzer {
     };
   }
 
+  // Call the npm registry API to get package info
   private async _fetchPackageInfo(packageName: string): Promise<NpmPackageInfo> {
     const url = `${this._npmRegistryUrl}/${packageName}/latest`;
 

@@ -1,5 +1,10 @@
 {
   "name": "license-builder",
+  "version": "1.0.0",
+  "description": "A tool to analyze npm package licenses and generate a report.",
+  "main": "dist/licenses.js",
+  "author": "David Psutka",
+  "license": "MIT",
   "scripts": {
     "dev": "tsx watch src/licenses.ts",
     "build": "tsc",
@@ -7,6 +12,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   }
